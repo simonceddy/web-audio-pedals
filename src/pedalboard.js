@@ -28,8 +28,11 @@ export default class Pedalboard {
     let last = this.#input;
 
     this.#signalPath.forEach((effect) => {
-      if (last && last.connect) last.connect(effect);
-      if (effect.connect) last = effect;
+      if (last) {
+        if (effect.plugIn) effect.plugIn(last);
+        else if (last.connect) last.connect(effect);
+        if (effect.connect) last = effect;
+      }
     });
 
     last.connect(this.#output);

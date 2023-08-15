@@ -3,6 +3,7 @@ import algoDrive from './algoDrive';
 import chorus from './chorus';
 import compressor from './compressor';
 import delay from './delay';
+import curvyCruncha from './filterDistortion';
 import yumCrisps from './yumCrisps';
 
 export { default as algoDrive } from './algoDrive';
@@ -12,7 +13,7 @@ export { default as compressor } from './compressor';
 export { default as delay } from './delay';
 export { default as yumCrisps } from './yumCrisps';
 
-const pedals = [
+const tunaPedals = [
   {
     key: 'algoDrive',
     factory: algoDrive,
@@ -45,4 +46,21 @@ const pedals = [
   },
 ];
 
-export default pedals;
+const pedalDirectory = {
+  tunaPedals: {
+    name: 'TunaJS',
+    pedals: tunaPedals
+  },
+  webAudioPedals: {
+    name: 'Web Audio',
+    pedals: [
+      {
+        key: 'curvyCruncha',
+        factory: curvyCruncha,
+        name: 'Curvy Cruncha'
+      }
+    ]
+  }
+};
+
+export default pedalDirectory;

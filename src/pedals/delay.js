@@ -46,12 +46,12 @@ function delay(tuna, id = 'delay') {
     value: typeof effect.delayTime === 'number' ? effect.delayTime : params.delayTime,
     label: 'delayTime'
   });
-  const feebackKnob = paramControl(`${id}-feeback-knob`, effect, 'feeback', {
+  const feedbackKnob = paramControl(`${id}-feedback-knob`, effect, 'feedback', {
     min: 0,
-    max: 1.2,
-    scale: 1.2,
-    value: typeof effect.feeback === 'number' ? effect.feeback : params.feeback,
-    label: 'feeback'
+    max: 1,
+    scale: 1,
+    value: typeof effect.feedback === 'number' ? effect.feedback : params.feedback,
+    label: 'feedback'
   });
   const wetLevelKnob = paramControl(`${id}-wetLevel-knob`, effect, 'wetLevel', {
     min: 0,
@@ -83,7 +83,7 @@ function delay(tuna, id = 'delay') {
     'w-full',
     'p-2'
   );
-  controls.append(delayTimeKnob, feebackKnob, wetLevelKnob, dryLevelKnob, cutoffKnob);
+  controls.append(delayTimeKnob, feedbackKnob, wetLevelKnob, dryLevelKnob, cutoffKnob);
   const footswitches = $el('div');
   footswitches.classList.add('row', 'justify-between', 'items-center');
   const bypass = bypassSwitch(id, effect);

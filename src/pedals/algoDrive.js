@@ -50,12 +50,12 @@ function algoDrive(tuna, id = 'algodrive') {
     label: 'curve'
   });
 
-  const gainKnob = paramControl(`${id}-gain-knob`, effect, 'gain', {
+  const gainKnob = paramControl(`${id}-gain-knob`, effect, 'outputGain', {
     min: -42,
     max: 0,
     scale: 42,
-    value: typeof effect.gain === 'number' ? effect.gain : params.gain,
-    label: 'gain'
+    value: typeof effect.outputGain === 'number' ? effect.outputGain : params.outputGain,
+    label: 'Gain'
   });
 
   const controls = $el('div');

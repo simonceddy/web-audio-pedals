@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable max-len */
 import Tuna from 'tunajs';
 import 'input-knob';
@@ -14,6 +15,7 @@ import algoDrive from './pedals/algoDrive';
 import Pedalboard from './pedalboard';
 import Toolbar from './components/toolbar';
 import muteButton from './components/muteButton';
+import PedalDirectory from './PedalDirectory';
 
 console.log('working');
 document.body.innerHTML = template;
@@ -59,7 +61,7 @@ const makePedalObj = ([el, effect], id) => ({
   name: effect?.name || `Pedal ${id}`,
   id,
   onClick: () => selectPedal(el),
-  addNext: (factory, key) => addToPedalBoard(factory, key, id + 1)
+  addNext: (key) => addToPedalBoard(key, id + 1)
 });
 
 let pedals = [
@@ -86,7 +88,10 @@ const removePedal = (el, effect, onRemove) => () => {
   if (onRemove) onRemove(pedals);
 };
 
-const addToPedalBoard = (factory, id, index = -1) => {
+const diretory = new PedalDirectory(context, tuna);
+
+const addToPedalBoard = (id, index = -1) => {
+  const factory = diretory.factoryFor(id);
   const [el, effect] = factory(tuna, `${id}-effect-${pedalBoard.effects.length}`);
   if (effect) pedalBoard.insert(effect, index);
   board.appendChild(el);
@@ -146,8 +151,8 @@ async function setup() {
     if (closeButton) {
       closeButton.addEventListener('click', removePedal(pedal.el, pedal.effect, (p) => {
         console.log('should render toolbar');
-        toolbar.render(p, (f, key) => {
-          addToPedalBoard(f, key, 0);
+        toolbar.render(p, (key) => {
+          addToPedalBoard(key, 0);
         });
       }));
     } else {
@@ -164,8 +169,8 @@ async function setup() {
     }
     return pedal;
   };
-  toolbar.render(pedals.map(setupPedal), (factory, key) => {
-    addToPedalBoard(factory, key, 0);
+  toolbar.render(pedals.map(setupPedal), (key) => {
+    addToPedalBoard(key, 0);
   });
 
   toolbar.appendChild(muteButton(context));

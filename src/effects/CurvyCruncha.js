@@ -50,7 +50,11 @@ export default class CurvyCruncha {
     this.#output = context.createGain();
     this.#waveshaper = context.createWaveShaper();
     this.#lowPass = context.createBiquadFilter();
+    this.#lowPass.frequency.value = 20000;
+    this.#lowPass.type = 'lowpass';
     this.#highPass = context.createBiquadFilter();
+    this.#highPass.frequency.value = 20;
+    this.#highPass.type = 'highpass';
 
     const { sampleRate } = context;
     this.#waveshaper.curve = makeDistortionCurve(400, sampleRate);
@@ -68,6 +72,10 @@ export default class CurvyCruncha {
 
   disconnect() {
     this.#output.disconnect();
+  }
+
+  plugIn(input) {
+    input.connect(this.#input);
   }
 
   get input() {
